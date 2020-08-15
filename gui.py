@@ -64,31 +64,30 @@ def create_tweet():
 
 
 def my_account():
-    # return api
-
     try:
+        new_window = Toplevel()
         me = start_the_bot()
         my_twitter = me.me()
 
         # twitter's name
-        my_name_label = Label(root, text="Name:\n" + my_twitter.screen_name)
-        my_name_label.grid(column=0, row=12, sticky=W)
+        my_name_label = Label(new_window, text="Name:\n" + my_twitter.screen_name)
+        my_name_label.grid(column=0, row=1, sticky=W)
 
         # twitter's description
-        my_description_label = Label(root, text="Description:\n" + my_twitter.description)
-        my_description_label.grid(column=0, row=13, sticky=W)
+        my_description_label = Label(new_window, text="Description:\n" + my_twitter.description)
+        my_description_label.grid(column=0, row=2, sticky=W)
 
         # twitter's followers
-        my_followers_count_label = Label(root, text="Followers:\n" + str(my_twitter.followers_count))
-        my_followers_count_label.grid(column=0, row=14, sticky=W)
+        my_followers_count_label = Label(new_window, text="Followers:\n" + str(my_twitter.followers_count))
+        my_followers_count_label.grid(column=0, row=3, sticky=W)
 
         successful_authorization_label = Label(root, text="Keys are alright", fg="green")
-        successful_authorization_label.grid(column=0, row=9)
+        successful_authorization_label.grid(column=0, row=10)
 
 
     except tweepy.TweepError:
         unsuccessful_authorization_label = Label(root, text="Keys aren't right", fg="red")
-        unsuccessful_authorization_label.grid(column=0, row=9)
+        unsuccessful_authorization_label.grid(column=0, row=10)
 
 
 
@@ -130,7 +129,7 @@ api_secret_entry = Entry(root)
 api_secret_entry.grid(column=0, row=7)
 
 # access button
-access_button = Button(root, text="Start the bot", command=my_account)
+access_button = Button(root, text="Account's info", command=my_account)
 access_button.grid(column=0, row=8)
 
 
