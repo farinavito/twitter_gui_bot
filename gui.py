@@ -82,7 +82,5 @@ access_button.grid(column=0, row=8)
 ###########################################################################################################
 
 # starting the app
-# window = Window()
-# window.mainloop()
 root.mainloop()
 
