@@ -6,6 +6,22 @@ root = Tk()
 root.title("TWITTER BOT")
 root.minsize(width=500, height=300)
 
+
+def delete_tweet():
+    try:
+        tweet_id = tweet_delete_entry.get()
+        destroy_tweet = start_the_bot()
+        destroy_tweet.destroy_status(id=tweet_id)
+
+        success_destroy_tweet = Label(root, text="tweet deleted!", fg="green")
+        success_destroy_tweet.grid(column=1, row=5)
+        tweet_delete_entry.delete(0, "end")
+
+    except:
+        unsuccess_destroy_tweet = Label(root, text="Something went wrong!", fg="red")
+        unsuccess_destroy_tweet.grid(column=1, row=5)
+
+
 def create_tweet():
     try:
         text_of_the_tweet = tweet_creation_text.get(0.0, END)
@@ -102,6 +118,15 @@ tweet_creation_text = Text(root, height=5, width=30)
 tweet_creation_text.grid(column=1, row=1, padx=(10, 5))
 tweet_creation_button = Button(root, text="Tweet", height=5, command=create_tweet)
 tweet_creation_button.grid(column=2, row=1)
+
+
+#Delete a tweet
+tweet_delete_label = Label(root, text="Delete this tweet:")
+tweet_delete_label.grid(column=1, row=3)
+tweet_delete_entry = Entry(root, width=40)
+tweet_delete_entry.grid(column=1, row=4, padx=(10, 5))
+tweet_delete_button = Button(root, text="Delete", command=delete_tweet)
+tweet_delete_button.grid(column=2, row=4)
 
 
 
