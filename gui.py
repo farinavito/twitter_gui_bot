@@ -49,6 +49,8 @@ def create_tweet():
         unsuccess_tweet = Label(root, text="Something went wrong", fg="red")
         unsuccess_tweet.grid(column=1, row=2)
 
+
+
 def my_account():
     # return api
     me = start_the_bot()
@@ -75,23 +77,10 @@ def start_the_bot():
     ake = api_key_entry.get()
     ase = api_secret_entry.get()
 
-    try:
-        auth = tweepy.OAuthHandler(cks, cse)
-        auth.set_access_token(ake, ase)
-        api = tweepy.API(auth, wait_on_rate_limit=True)
-
-        success_status_bot = Label(root, text="Your bot is connected", fg="green")
-        success_status_bot.grid(column=0, row=9, sticky=W)
-
-        return api
-
-
-    except tweepy.TweepError as e:
-        error_status_bot = Label(root, text=e, fg="red")
-        error_status_bot.grid(column=0, row=9)
-
-
-
+    auth = tweepy.OAuthHandler(cks, cse)
+    auth.set_access_token(ake, ase)
+    api = tweepy.API(auth, wait_on_rate_limit=True)
+    return api
 
 
 # consumer key
@@ -119,7 +108,7 @@ api_secret_entry = Entry(root)
 api_secret_entry.grid(column=0, row=7)
 
 # access button
-access_button = Button(root, text="Start your bot", command=my_account)
+access_button = Button(root, text="Start the bot", command=start_the_bot)
 access_button.grid(column=0, row=8)
 
 
