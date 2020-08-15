@@ -6,6 +6,19 @@ root = Tk()
 root.title("TWITTER BOT")
 root.minsize(width=500, height=300)
 
+def retweet_tweet():
+    try:
+        tweet_want_to_retweet = retweet_entry.get()
+        retweet = start_the_bot()
+        retweet.retweet(id=tweet_want_to_retweet)
+
+        success_retweeted_tweet = Label(root, text="Retweeted", fg="green")
+        success_retweeted_tweet.grid(column=1, row=8)
+        retweet_entry.delete(0, "end")
+
+    except:
+        unsuccess_retweeted_tweet = Label(root, text="Something went wrong!", fg="red")
+        unsuccess_retweeted_tweet.grid(column=1, row=8)
 
 def delete_tweet():
     try:
@@ -127,6 +140,14 @@ tweet_delete_entry = Entry(root, width=40)
 tweet_delete_entry.grid(column=1, row=4, padx=(10, 5))
 tweet_delete_button = Button(root, text="Delete", command=delete_tweet)
 tweet_delete_button.grid(column=2, row=4)
+
+#Retweet
+retweet_label = Label(root, text="Retweet this tweet:")
+retweet_label.grid(column=1, row=6)
+retweet_entry = Entry(root, width=40)
+retweet_entry.grid(column=1, row=7, padx=(10, 5))
+retweet_button = Button(root, text="Retweet", command=retweet_tweet)
+retweet_button.grid(column=2, row=7)
 
 
 
