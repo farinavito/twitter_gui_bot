@@ -16,6 +16,10 @@ def retweet_tweet():
         success_retweeted_tweet.grid(column=1, row=8)
         retweet_entry.delete(0, "end")
 
+    except tweepy.TweepError:
+        unsuccessful_authorization_label = Label(root, text="Keys aren't right", fg="red")
+        unsuccessful_authorization_label.grid(column=0, row=9)
+
     except:
         unsuccess_retweeted_tweet = Label(root, text="Something went wrong!", fg="red")
         unsuccess_retweeted_tweet.grid(column=1, row=8)
@@ -29,6 +33,10 @@ def delete_tweet():
         success_destroy_tweet = Label(root, text="tweet deleted!", fg="green")
         success_destroy_tweet.grid(column=1, row=5)
         tweet_delete_entry.delete(0, "end")
+
+    except tweepy.TweepError:
+        unsuccessful_authorization_label = Label(root, text="Keys aren't right", fg="red")
+        unsuccessful_authorization_label.grid(column=0, row=9)
 
     except:
         unsuccess_destroy_tweet = Label(root, text="Something went wrong!", fg="red")
@@ -45,6 +53,10 @@ def create_tweet():
         success_tweet.grid(column=1, row=2)
         tweet_creation_text.delete(0.0, END)
 
+    except tweepy.TweepError:
+        unsuccessful_authorization_label = Label(root, text="Keys aren't right", fg="red")
+        unsuccessful_authorization_label.grid(column=0, row=9)
+
     except:
         unsuccess_tweet = Label(root, text="Something went wrong", fg="red")
         unsuccess_tweet.grid(column=1, row=2)
@@ -53,20 +65,30 @@ def create_tweet():
 
 def my_account():
     # return api
-    me = start_the_bot()
-    my_twitter = me.me()
 
-    # twitter's name
-    my_name_label = Label(root, text="Name:\n" + my_twitter.screen_name)
-    my_name_label.grid(column=0, row=12, sticky=W)
+    try:
+        me = start_the_bot()
+        my_twitter = me.me()
 
-    # twitter's description
-    my_description_label = Label(root, text="Description:\n" + my_twitter.description)
-    my_description_label.grid(column=0, row=13, sticky=W)
+        # twitter's name
+        my_name_label = Label(root, text="Name:\n" + my_twitter.screen_name)
+        my_name_label.grid(column=0, row=12, sticky=W)
 
-    # twitter's followers
-    my_followers_count_label = Label(root, text="Followers:\n" + str(my_twitter.followers_count))
-    my_followers_count_label.grid(column=0, row=14, sticky=W)
+        # twitter's description
+        my_description_label = Label(root, text="Description:\n" + my_twitter.description)
+        my_description_label.grid(column=0, row=13, sticky=W)
+
+        # twitter's followers
+        my_followers_count_label = Label(root, text="Followers:\n" + str(my_twitter.followers_count))
+        my_followers_count_label.grid(column=0, row=14, sticky=W)
+
+        successful_authorization_label = Label(root, text="Keys are alright", fg="green")
+        successful_authorization_label.grid(column=0, row=9)
+
+
+    except tweepy.TweepError:
+        unsuccessful_authorization_label = Label(root, text="Keys aren't right", fg="red")
+        unsuccessful_authorization_label.grid(column=0, row=9)
 
 
 
@@ -108,7 +130,7 @@ api_secret_entry = Entry(root)
 api_secret_entry.grid(column=0, row=7)
 
 # access button
-access_button = Button(root, text="Start the bot", command=start_the_bot)
+access_button = Button(root, text="Start the bot", command=my_account)
 access_button.grid(column=0, row=8)
 
 
