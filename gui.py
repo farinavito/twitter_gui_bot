@@ -6,6 +6,20 @@ root = Tk()
 root.title("TWITTER BOT")
 root.minsize(width=500, height=300)
 
+def create_tweet():
+    try:
+        text_of_the_tweet = tweet_creation_text.get(0.0, END)
+        create_tweet = start_the_bot()
+        create_tweet.update_status(text_of_the_tweet)
+
+        success_tweet = Label(root, text="You have tweeted", fg="green")
+        success_tweet.grid(column=1, row=2)
+        tweet_creation_text.delete(0.0, END)
+
+    except:
+        unsuccess_tweet = Label(root, text="Something went wrong", fg="red")
+        unsuccess_tweet.grid(column=1, row=2)
+
 def my_account():
     # return api
     me = start_the_bot()
@@ -22,6 +36,8 @@ def my_account():
     # twitter's followers
     my_followers_count_label = Label(root, text="Followers:\n" + str(my_twitter.followers_count))
     my_followers_count_label.grid(column=0, row=14, sticky=W)
+
+
 
 
 def start_the_bot():
@@ -48,8 +64,6 @@ def start_the_bot():
 
 
 
-
-################### GETING THE ACCESS TO THE BOT ####################################################
 
 # consumer key
 consumer_key_label = Label(root, text="Enter consumer key:")
@@ -79,7 +93,19 @@ api_secret_entry.grid(column=0, row=7)
 access_button = Button(root, text="Start your bot", command=my_account)
 access_button.grid(column=0, row=8)
 
-###########################################################################################################
+
+
+#Create a tweet
+tweet_creation_label = Label(root, text="Create a tweet:")
+tweet_creation_label.grid(column=1, row=0)
+tweet_creation_text = Text(root, height=5, width=30)
+tweet_creation_text.grid(column=1, row=1, padx=(10, 5))
+tweet_creation_button = Button(root, text="Tweet", height=5, command=create_tweet)
+tweet_creation_button.grid(column=2, row=1)
+
+
+
+
 
 # starting the app
 root.mainloop()
