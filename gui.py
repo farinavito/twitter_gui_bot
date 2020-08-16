@@ -86,18 +86,46 @@ def my_account():
         new_window = Toplevel()
         api = tweepy.API(start_the_bot(), wait_on_rate_limit=True)
         my_twitter = api.me()
-        # twitter's name
+        # account's name
         my_name_label = Label(new_window, text="Name:\n" + my_twitter.screen_name)
         my_name_label.grid(column=0, row=1, sticky=W)
 
-        # twitter's description
+        # account's description
         my_description_label = Label(new_window, text="Description:\n" + my_twitter.description)
         my_description_label.grid(column=0, row=2, sticky=W)
 
-        # twitter's followers
+        # account's followers
         my_followers_count_label = Label(new_window, text="Followers:\n" + str(my_twitter.followers_count))
         my_followers_count_label.grid(column=0, row=3, sticky=W)
 
+        # acount follows
+        my_following_count_label = Label(new_window, text="Following:\n" + str(my_twitter.friends_count))
+        my_following_count_label.grid(column=0, row=5, sticky=W)
+
+        # account's location
+
+
+        # account's creation date
+        date = my_twitter.created_at.strftime("%d-%b-%Y")
+        my_creation_date_label = Label(new_window, text="Creation date:\n" + date)
+        my_creation_date_label.grid(column=0, row=6, sticky=W)
+
+        # verified account
+        my_verified_account_label = Label(new_window, text="Verified account:\n" + str(my_twitter.verified))
+        my_verified_account_label.grid(column=0, row=7, sticky=W)
+
+        # number of tweets the account liked
+        my_verified_account_label = Label(new_window, text="Number of liked tweets:\n" + str(my_twitter.favourites_count))
+        my_verified_account_label.grid(column=0, row=8, sticky=W)
+
+        # number of tweets the account issued
+        my_verified_account_label = Label(new_window, text="Number of issued tweets:\n" + str(my_twitter.statuses_count))
+        my_verified_account_label.grid(column=0, row=9, sticky=W)
+
+        # default profile image
+        my_verified_account_label = Label(new_window,
+                                          text="Using default profile image:\n" + str(my_twitter.default_profile_image))
+        my_verified_account_label.grid(column=0, row=10, sticky=W)
     else:
         unsuccessful_authorization_label = Label(root, text="Keys aren't right", fg="red")
         unsuccessful_authorization_label.grid(column=0, row=10)
