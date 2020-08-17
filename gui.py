@@ -17,6 +17,17 @@ def start_the_bot():
     auth.set_access_token(ake, ase)
     return auth
 
+def check_authorization():
+    try:
+        start_the_bot().get_authorization_url()
+        successful_authorization_label = Label(root, text="Keys are alright", fg="green")
+        successful_authorization_label.grid(column=0, row=10)
+        return True
+    except tweepy.TweepError:
+        print('Error! Failed to get request token.')
+        unsuccessful_authorization_label = Label(root, text="Keys aren't right", fg="red")
+        unsuccessful_authorization_label.grid(column=0, row=10)
+
 
 def my_account():
     # check for keys
@@ -25,6 +36,7 @@ def my_account():
         new_window_my_account = create_new_window()
         api = tweepy.API(start_the_bot(), wait_on_rate_limit=True)
         my_twitter = api.me()
+
         # account's name
         my_name_label = Label(new_window_my_account, text="Name:\n" + my_twitter.screen_name)
         my_name_label.grid(column=0, row=1, sticky=W)
@@ -76,6 +88,7 @@ def create_tweet():
             api = tweepy.API(start_the_bot(), wait_on_rate_limit=True)
             text_of_the_tweet = tweet_creation_text.get(0.0, END)
             api.update_status(text_of_the_tweet)
+
             # Create a success label
             success_tweet = Label(root, text="You have tweeted", fg="green")
             success_tweet.grid(column=1, row=2)
@@ -96,6 +109,7 @@ def unretweet():
             api = tweepy.API(start_the_bot(), wait_on_rate_limit=True)
             unretweet_id = unretweet_entry.get()
             api.unretweet(id=unretweet_id)
+
             # create a success label
             success_unretweet = Label(root, text="Unretweeted", fg="green")
             success_unretweet.grid(column=1, row=11)
@@ -117,6 +131,7 @@ def delete_tweet():
             api = tweepy.API(start_the_bot(), wait_on_rate_limit=True)
             tweet_id = tweet_delete_entry.get()
             api.destroy_status(id=tweet_id)
+
             # Create a success label
             success_destroy_tweet = Label(root, text="tweet deleted!", fg="green")
             success_destroy_tweet.grid(column=1, row=5)
@@ -151,18 +166,6 @@ def retweet_tweet():
         unsuccess_retweeted_tweet.grid(column=1, row=8)
 
 
-def check_authorization():
-    try:
-        start_the_bot().get_authorization_url()
-        successful_authorization_label = Label(root, text="Keys are alright", fg="green")
-        successful_authorization_label.grid(column=0, row=10)
-        return True
-    except tweepy.TweepError:
-        print('Error! Failed to get request token.')
-        unsuccessful_authorization_label = Label(root, text="Keys aren't right", fg="red")
-        unsuccessful_authorization_label.grid(column=0, row=10)
-
-
 def retrieve_info():
     try:
         keys_alright = check_authorization()
@@ -170,8 +173,10 @@ def retrieve_info():
             api = tweepy.API(start_the_bot(), wait_on_rate_limit=True)
             get_tweet_info_entry = tweet_info_entry.get()
             tweet_info = api.get_status(id=get_tweet_info_entry)
+
             # create a new window with info
             show_tweet_info(tweet_info)
+
             # create a success message
             success_tweet_info_label = Label(root, text="Retrieved", fg="green")
             success_tweet_info_label.grid(column=3, row=2)
@@ -187,30 +192,55 @@ def retrieve_info():
 def show_tweet_info(get_api):
     tweet_info_window = create_new_window()
     # tweet's id
-    tweet_info_id = Label(create_new_window(), text="Tweet's id:\n" + str(get_api.id_str))
+    tweet_info_id = Label(tweet_info_window, text="Tweet's id:\n" + str(get_api.id_str))
     tweet_info_id.grid(column=0, row=0)
+
     # tweet's date creation
     tweet_info_date = get_api.created_at.strftime("%d-%b-%Y")
     my_creation_date_label = Label(tweet_info_window, text="Creation date:\n" + tweet_info_date)
     my_creation_date_label.grid(column=0, row=1)
+
     # Tweet's text
     tweet_info_text_label = Label(tweet_info_window, text="Text:\n" + get_api.text)
     tweet_info_text_label.grid(column=0, row=2)
+
     # tweet's source
     tweet_info_source = Label(tweet_info_window, text="Tweet's source:\n" + get_api.source)
     tweet_info_source.grid(column=0, row=3)
+
     # is tweet truncated
     tweet_info_truncated = Label(tweet_info_window, text=" Is tweet truncated:\n" + str(get_api.truncated))
     tweet_info_truncated.grid(column=0, row=4)
+
     # is this quoted tweet
     tweet_info_quoted = Label(tweet_info_window, text="Is this a quoted tweet:\n" + str(get_api.is_quote_status))
     tweet_info_quoted.grid(column=0, row=5)
+
     # number of times this tweet has been retweeted
     tweet_info_retweeted_count = Label(tweet_info_window, text="Retweeted by:\n" + str(get_api.retweet_count))
     tweet_info_retweeted_count.grid(column=0, row=6)
+
     # number of times this tweet has been liked
     tweet_info_liked_count = Label(tweet_info_window, text="Liked by:\n" + str(get_api.favorite_count))
     tweet_info_liked_count.grid(column=0, row=7)
+
+    try:
+        status_id = get_api.in_reply_to_status_id_st
+        screen_name = get_api.in_reply_to_screen_name
+        # to which tweet is replying
+        tweet_info_replying_id = Label(tweet_info_window,
+                                       text="This is a reply to tweet:\n" + status_id)
+        tweet_info_replying_id.grid(column=0, row=8)
+        # to which screen name is this tweet replying
+        tweet_info_replying_screen_name = Label(tweet_info_window,
+                                                text="This a reply to:\n" + screen_name)
+        tweet_info_replying_screen_name.grid(column=0, row=9)
+
+    except AttributeError:
+        # if searched tweet wasn't a reply
+        unsuccess_tweet_info_replying_id = Label(tweet_info_window, text="This tweet wasn't a reply")
+        unsuccess_tweet_info_replying_id.grid(column=0, row=8)
+
 
 
 def create_new_window():
