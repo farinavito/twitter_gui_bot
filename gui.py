@@ -316,6 +316,26 @@ def account_info():
         unsuccess_tweet_info.grid(column=3, row=4)
 
 
+def like_tweet():
+    try:
+        keys_alright = check_authorization()
+        if keys_alright is True:
+            api = tweepy.API(start_the_bot(), wait_on_rate_limit=True)
+            liked_tweet = like_tweet_entry.get()
+            api.create_favorite(id=liked_tweet)
+
+            # create a success message
+            liked_tweet_label = Label(root, text="Liked", fg="green")
+            liked_tweet_label.grid(column=3, row=7)
+            like_tweet_entry.delete(0, "end")
+        else:
+            unsuccessful_like_tweet_label = Label(root, text="Keys aren't right", fg="red")
+            unsuccessful_like_tweet_label.grid(column=3, row=47)
+    except:
+        unsuccess_like_tweet = Label(root, text="Something went wrong!", fg="red")
+        unsuccess_like_tweet.grid(column=3, row=7)
+
+
 # consumer key
 consumer_key_label = Label(root, text="Enter consumer key:")
 consumer_key_label.grid(column=0, row=0)
@@ -391,6 +411,14 @@ tweet_account_entry = Entry(root, width=40)
 tweet_account_entry.grid(column=3, row=3, padx=(10, 5))
 tweet_account_button = Button(root, text="Info", command=account_info)
 tweet_account_button.grid(column=4, row=3)
+
+#like the tweet
+like_tweet_label = Label(root, text="Like this tweet:")
+like_tweet_label.grid(column=3, row=5)
+like_tweet_entry = Entry(root, width=40)
+like_tweet_entry.grid(column=3, row=6, padx=(10, 5))
+like_tweet_button = Button(root, text="Like", command=like_tweet)
+like_tweet_button.grid(column=4, row=6)
 
 # starting the app
 root.mainloop()
