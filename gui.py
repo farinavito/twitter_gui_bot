@@ -33,53 +33,57 @@ def my_account():
     # check for keys
     keys_alright = check_authorization()
     if keys_alright is True:
-        new_window_my_account = create_new_window()
+
         api = tweepy.API(start_the_bot(), wait_on_rate_limit=True)
         my_twitter = api.me()
+        account_in_new_window(my_twitter)
 
-        # account's name
-        my_name_label = Label(new_window_my_account, text="Name:\n" + my_twitter.screen_name)
-        my_name_label.grid(column=0, row=1, sticky=W)
-
-        # account's description
-        my_description_label = Label(new_window_my_account, text="Description:\n" + my_twitter.description)
-        my_description_label.grid(column=0, row=2, sticky=W)
-
-        # account's followers
-        my_followers_count_label = Label(new_window_my_account, text="Followers:\n" + str(my_twitter.followers_count))
-        my_followers_count_label.grid(column=0, row=3, sticky=W)
-
-        # acount follows
-        my_following_count_label = Label(new_window_my_account, text="Following:\n" + str(my_twitter.friends_count))
-        my_following_count_label.grid(column=0, row=4, sticky=W)
-
-        # account's creation date
-        date = my_twitter.created_at.strftime("%d-%b-%Y")
-        my_creation_date_label = Label(new_window_my_account, text="Creation date:\n" + date)
-        my_creation_date_label.grid(column=0, row=5, sticky=W)
-
-        # verified account
-        my_verified_account_label = Label(new_window_my_account, text="Verified account:\n" + str(my_twitter.verified))
-        my_verified_account_label.grid(column=0, row=6, sticky=W)
-
-        # number of tweets the account liked
-        my_verified_account_label = Label(new_window_my_account,
-                                          text="Number of liked tweets:\n" + str(my_twitter.favourites_count))
-        my_verified_account_label.grid(column=0, row=7, sticky=W)
-
-        # number of tweets the account issued
-        my_verified_account_label = Label(new_window_my_account,
-                                          text="Number of issued tweets:\n" + str(my_twitter.statuses_count))
-        my_verified_account_label.grid(column=0, row=8, sticky=W)
-
-        # default profile image
-        my_verified_account_label = Label(new_window_my_account,
-                                          text="Using default profile image:\n" + str(my_twitter.default_profile_image))
-        my_verified_account_label.grid(column=0, row=9, sticky=W)
     else:
         unsuccessful_authorization_label = Label(root, text="Keys aren't right", fg="red")
         unsuccessful_authorization_label.grid(column=0, row=10)
 
+
+def account_in_new_window(get_api):
+    new_window_my_account = create_new_window()
+    # account's name
+    my_name_label = Label(new_window_my_account, text="Name:\n" + get_api.screen_name)
+    my_name_label.grid(column=0, row=1, sticky=W)
+
+    # account's description
+    my_description_label = Label(new_window_my_account, text="Description:\n" + get_api.description)
+    my_description_label.grid(column=0, row=2, sticky=W)
+
+    # account's followers
+    my_followers_count_label = Label(new_window_my_account, text="Followers:\n" + str(get_api.followers_count))
+    my_followers_count_label.grid(column=0, row=3, sticky=W)
+
+    # acount follows
+    my_following_count_label = Label(new_window_my_account, text="Following:\n" + str(get_api.friends_count))
+    my_following_count_label.grid(column=0, row=4, sticky=W)
+
+    # account's creation date
+    date = get_api.created_at.strftime("%d-%b-%Y")
+    my_creation_date_label = Label(new_window_my_account, text="Creation date:\n" + date)
+    my_creation_date_label.grid(column=0, row=5, sticky=W)
+
+    # verified account
+    my_verified_account_label = Label(new_window_my_account, text="Verified account:\n" + str(get_api.verified))
+    my_verified_account_label.grid(column=0, row=6, sticky=W)
+
+    # number of tweets the account liked
+    my_verified_account_label = Label(new_window_my_account,
+                                      text="Number of liked tweets:\n" + str(get_api.favourites_count))
+    my_verified_account_label.grid(column=0, row=7, sticky=W)
+
+    # number of tweets the account issued
+    my_verified_account_label = Label(new_window_my_account,
+                                      text="Number of issued tweets:\n" + str(get_api.statuses_count))
+    my_verified_account_label.grid(column=0, row=8, sticky=W)
+
+    # default profile image
+    my_verified_account_label = Label(new_window_my_account,
+                                      text="Using default profile image:\n" + str(get_api.default_profile_image))
+    my_verified_account_label.grid(column=0, row=9, sticky=W)
 
 def create_tweet():
     try:
@@ -224,6 +228,14 @@ def show_tweet_info(get_api):
     tweet_info_liked_count = Label(tweet_info_window, text="Liked by:\n" + str(get_api.favorite_count))
     tweet_info_liked_count.grid(column=0, row=7)
 
+    # liked by me
+    tweet_info_liked_by_me = Label(tweet_info_window, text="Liked by me:\n" + str(get_api.favorited))
+    tweet_info_liked_by_me.grid(column=0, row=12)
+
+    # retweeted by me
+    tweet_info_liked_by_me = Label(tweet_info_window, text="Retweeted by me:\n" + str(get_api.retweeted))
+    tweet_info_liked_by_me.grid(column=0, row=13)
+
     try:
         # retriveing tweet's entities
         entities_ = get_api.entities
@@ -280,6 +292,29 @@ def create_new_window():
     window = Toplevel()
     window.minsize(width=250, height=300)
     return window
+
+def account_info():
+    try:
+        keys_alright = check_authorization()
+        if keys_alright is True:
+            api = tweepy.API(start_the_bot(), wait_on_rate_limit=True)
+            get_tweet_account_entry = tweet_account_entry.get()
+            account_info_user = api.get_user(screen_name=get_tweet_account_entry)
+
+            # create a new window with info
+            account_in_new_window(account_info_user)
+
+            # create a success message
+            success_tweet_info_label = Label(root, text="Retrieved", fg="green")
+            success_tweet_info_label.grid(column=3, row=4)
+            tweet_info_entry.delete(0, "end")
+        else:
+            unsuccessful_tweet_info_label = Label(root, text="Keys aren't right", fg="red")
+            unsuccessful_tweet_info_label.grid(column=3, row=4)
+    except:
+        unsuccess_tweet_info = Label(root, text="Something went wrong!", fg="red")
+        unsuccess_tweet_info.grid(column=3, row=4)
+
 
 # consumer key
 consumer_key_label = Label(root, text="Enter consumer key:")
@@ -348,6 +383,14 @@ tweet_info_entry = Entry(root, width=40)
 tweet_info_entry.grid(column=3, row=1, padx=(10, 5))
 tweet_info_button = Button(root, text="Info", command=retrieve_info)
 tweet_info_button.grid(column=4, row=1)
+
+# account info
+tweet_account_label = Label(root, text="Retrieve this account's info:")
+tweet_account_label.grid(column=3, row=2)
+tweet_account_entry = Entry(root, width=40)
+tweet_account_entry.grid(column=3, row=3, padx=(10, 5))
+tweet_account_button = Button(root, text="Info", command=account_info)
+tweet_account_button.grid(column=4, row=3)
 
 # starting the app
 root.mainloop()
