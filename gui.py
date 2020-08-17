@@ -7,11 +7,16 @@ root = Tk()
 root.title("TWITTER BOT")
 root.minsize(width=500, height=300)
 
+def create_new_window():
+    window = Toplevel()
+    window.minsize(width=250, height=300)
+    return window
+
 
 def show_tweet_info(get_api):
-    tweet_info_window = Toplevel()
+    tweet_info_window = create_new_window()
     # tweet's id
-    tweet_info_id = Label(tweet_info_window, text="Tweet's id:\n" + str(get_api.id_str))
+    tweet_info_id = Label(create_new_window(), text="Tweet's id:\n" + str(get_api.id_str))
     tweet_info_id.grid(column=0, row=0)
     # tweet's date creation
     tweet_info_date = get_api.created_at.strftime("%d-%b-%Y")
@@ -136,44 +141,46 @@ def my_account():
     # check for keys
     keys_alright = check_authorization()
     if keys_alright is True:
-        new_window = Toplevel()
+        # new_window_my_account = Toplevel()
+        # new_window_my_account.minsize(width=250, height=300)
+        new_window_my_account = create_new_window()
         api = tweepy.API(start_the_bot(), wait_on_rate_limit=True)
         my_twitter = api.me()
         # account's name
-        my_name_label = Label(new_window, text="Name:\n" + my_twitter.screen_name)
+        my_name_label = Label(new_window_my_account, text="Name:\n" + my_twitter.screen_name)
         my_name_label.grid(column=0, row=1, sticky=W)
 
         # account's description
-        my_description_label = Label(new_window, text="Description:\n" + my_twitter.description)
+        my_description_label = Label(new_window_my_account, text="Description:\n" + my_twitter.description)
         my_description_label.grid(column=0, row=2, sticky=W)
 
         # account's followers
-        my_followers_count_label = Label(new_window, text="Followers:\n" + str(my_twitter.followers_count))
+        my_followers_count_label = Label(new_window_my_account, text="Followers:\n" + str(my_twitter.followers_count))
         my_followers_count_label.grid(column=0, row=3, sticky=W)
 
         # acount follows
-        my_following_count_label = Label(new_window, text="Following:\n" + str(my_twitter.friends_count))
+        my_following_count_label = Label(new_window_my_account, text="Following:\n" + str(my_twitter.friends_count))
         my_following_count_label.grid(column=0, row=4, sticky=W)
 
         # account's creation date
         date = my_twitter.created_at.strftime("%d-%b-%Y")
-        my_creation_date_label = Label(new_window, text="Creation date:\n" + date)
+        my_creation_date_label = Label(new_window_my_account, text="Creation date:\n" + date)
         my_creation_date_label.grid(column=0, row=5, sticky=W)
 
         # verified account
-        my_verified_account_label = Label(new_window, text="Verified account:\n" + str(my_twitter.verified))
+        my_verified_account_label = Label(new_window_my_account, text="Verified account:\n" + str(my_twitter.verified))
         my_verified_account_label.grid(column=0, row=6, sticky=W)
 
         # number of tweets the account liked
-        my_verified_account_label = Label(new_window, text="Number of liked tweets:\n" + str(my_twitter.favourites_count))
+        my_verified_account_label = Label(new_window_my_account, text="Number of liked tweets:\n" + str(my_twitter.favourites_count))
         my_verified_account_label.grid(column=0, row=7, sticky=W)
 
         # number of tweets the account issued
-        my_verified_account_label = Label(new_window, text="Number of issued tweets:\n" + str(my_twitter.statuses_count))
+        my_verified_account_label = Label(new_window_my_account, text="Number of issued tweets:\n" + str(my_twitter.statuses_count))
         my_verified_account_label.grid(column=0, row=8, sticky=W)
 
         # default profile image
-        my_verified_account_label = Label(new_window,
+        my_verified_account_label = Label(new_window_my_account,
                                           text="Using default profile image:\n" + str(my_twitter.default_profile_image))
         my_verified_account_label.grid(column=0, row=9, sticky=W)
     else:
