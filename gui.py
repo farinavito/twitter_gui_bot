@@ -225,10 +225,12 @@ def show_tweet_info(get_api):
     tweet_info_liked_count.grid(column=0, row=7)
 
     try:
-        # retriving tweet's entities
+        # retriveing tweet's entities
         entities_ = get_api.entities
-        # retriving hashtags
-        get_entities_from_tweet(entities_, tweet_info_window)
+        # retriveing user mentions from a tweet
+        get_user_mentions_from_tweet(entities_, tweet_info_window)
+        # retriveing hashtags from a tweet
+        get_hashtags_from_tweet(entities_, tweet_info_window)
 
         status_id = get_api.in_reply_to_status_id_st
         screen_name = get_api.in_reply_to_screen_name
@@ -248,7 +250,20 @@ def show_tweet_info(get_api):
         unsuccess_tweet_info_replying_id.grid(column=0, row=8)
 
 
-def get_entities_from_tweet(entities_, tweet_info_window):
+def get_user_mentions_from_tweet(entities_, tweet_info_window):
+    try:
+        user_mentions_all = entities_.user_mentions
+        success_tweet_info_user_mentions = Label(tweet_info_window,
+                                            text="User mentions:\n" + user_mentions_all)
+        success_tweet_info_user_mentions.grid(column=0, row=11)
+        return success_tweet_info_user_mentions
+
+    except AttributeError:
+        unsuccess_tweet_info_user_mentions = Label(tweet_info_window, text="No one has been mentioned")
+        unsuccess_tweet_info_user_mentions.grid(column=0, row=11)
+        return unsuccess_tweet_info_user_mentions
+
+def get_hashtags_from_tweet(entities_, tweet_info_window):
     try:
         hashtags_all = entities_.hashtags
         success_tweet_info_hashtags = Label(tweet_info_window,
