@@ -330,10 +330,30 @@ def like_tweet():
             like_tweet_entry.delete(0, "end")
         else:
             unsuccessful_like_tweet_label = Label(root, text="Keys aren't right", fg="red")
-            unsuccessful_like_tweet_label.grid(column=3, row=47)
+            unsuccessful_like_tweet_label.grid(column=3, row=7)
     except:
         unsuccess_like_tweet = Label(root, text="Something went wrong!", fg="red")
         unsuccess_like_tweet.grid(column=3, row=7)
+
+
+def unlike_tweet():
+    try:
+        keys_alright = check_authorization()
+        if keys_alright is True:
+            api = tweepy.API(start_the_bot(), wait_on_rate_limit=True)
+            unliked_tweet = unlike_tweet_entry.get()
+            api.destroy_favorite(id=unliked_tweet)
+
+            # create a success message
+            unliked_tweet_label = Label(root, text="Unliked", fg="green")
+            unliked_tweet_label.grid(column=3, row=10)
+            unlike_tweet_entry.delete(0, "end")
+        else:
+            unsuccessful_unlike_tweet_label = Label(root, text="Keys aren't right", fg="red")
+            unsuccessful_unlike_tweet_label.grid(column=3, row=10)
+    except:
+        unsuccess_like_tweet = Label(root, text="Something went wrong!", fg="red")
+        unsuccess_like_tweet.grid(column=3, row=10)
 
 
 # consumer key
@@ -419,6 +439,14 @@ like_tweet_entry = Entry(root, width=40)
 like_tweet_entry.grid(column=3, row=6, padx=(10, 5))
 like_tweet_button = Button(root, text="Like", command=like_tweet)
 like_tweet_button.grid(column=4, row=6)
+
+#unlike the tweet
+unlike_tweet_label = Label(root, text="Unlike this tweet:")
+unlike_tweet_label.grid(column=3, row=8)
+unlike_tweet_entry = Entry(root, width=40)
+unlike_tweet_entry.grid(column=3, row=9, padx=(10, 5))
+unlike_tweet_button = Button(root, text="Unlike", command=unlike_tweet)
+unlike_tweet_button.grid(column=4, row=9)
 
 # starting the app
 root.mainloop()
