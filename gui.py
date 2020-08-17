@@ -225,8 +225,14 @@ def show_tweet_info(get_api):
     tweet_info_liked_count.grid(column=0, row=7)
 
     try:
+        # retriving tweet's entities
+        entities_ = get_api.entities
+        # retriving hashtags
+        get_entities_from_tweet(entities_, tweet_info_window)
+
         status_id = get_api.in_reply_to_status_id_st
         screen_name = get_api.in_reply_to_screen_name
+
         # to which tweet is replying
         tweet_info_replying_id = Label(tweet_info_window,
                                        text="This is a reply to tweet:\n" + status_id)
@@ -242,6 +248,18 @@ def show_tweet_info(get_api):
         unsuccess_tweet_info_replying_id.grid(column=0, row=8)
 
 
+def get_entities_from_tweet(entities_, tweet_info_window):
+    try:
+        hashtags_all = entities_.hashtags
+        success_tweet_info_hashtags = Label(tweet_info_window,
+                                            text="Hashtags:\n" + hashtags_all)
+        success_tweet_info_hashtags.grid(column=0, row=10)
+        return success_tweet_info_hashtags
+
+    except AttributeError:
+        unsuccess_tweet_info_hashtags = Label(tweet_info_window, text="This tweet has no hashtags")
+        unsuccess_tweet_info_hashtags.grid(column=0, row=9)
+        return unsuccess_tweet_info_hashtags
 
 def create_new_window():
     window = Toplevel()
