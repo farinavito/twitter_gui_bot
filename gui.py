@@ -4,7 +4,7 @@ import tweepy
 # Initial parameters
 root = Tk()
 root.title("TWITTER BOT")
-root.minsize(width=500, height=300)
+root.minsize(width=500, height=500)
 
 
 def start_the_bot():
@@ -40,7 +40,7 @@ def my_account():
 
     else:
         unsuccessful_authorization_label = Label(root, text="Keys aren't right", fg="red")
-        unsuccessful_authorization_label.grid(column=0, row=10)
+        unsuccessful_authorization_label.grid(column=0, row=8)
 
 
 def account_in_new_window(get_api):
@@ -355,6 +355,33 @@ def unlike_tweet():
         unsuccess_like_tweet = Label(root, text="Something went wrong!", fg="red")
         unsuccess_like_tweet.grid(column=3, row=10)
 
+def get_my_tweets_info():
+    # check for keys
+    keys_alright = check_authorization()
+    if keys_alright is True:
+
+        api = tweepy.API(start_the_bot(), wait_on_rate_limit=True)
+        create_new_window_with_scrollbar(api)
+    else:
+        unsuccessful_authorization_label = Label(root, text="Keys aren't right", fg="red")
+        unsuccessful_authorization_label.grid(column=0, row=8)
+
+
+def create_new_window_with_scrollbar(get_api):
+    # create a new window
+    new_window_all_my_tweets = create_new_window()
+    # create a scrollbar
+    scrollbar = Scrollbar(new_window_all_my_tweets)
+    scrollbar.pack(side=RIGHT, fill=Y)
+    # create a list in a scrollbar
+    mylist = Listbox(new_window_all_my_tweets, width=40, yscrollcommand=scrollbar.set)
+    for status in tweepy.Cursor(get_api.user_timeline).items():
+        time_of_creation = status.created_at.strftime("%d-%b-%Y")
+        mylist.insert(END, status.text + ", " + status.id_str + ", " + time_of_creation)
+
+    mylist.pack(side=LEFT, fill=BOTH)
+    scrollbar.config(command=mylist.yview)
+
 
 # consumer key
 consumer_key_label = Label(root, text="Enter consumer key:")
@@ -447,6 +474,10 @@ unlike_tweet_entry = Entry(root, width=40)
 unlike_tweet_entry.grid(column=3, row=9, padx=(10, 5))
 unlike_tweet_button = Button(root, text="Unlike", command=unlike_tweet)
 unlike_tweet_button.grid(column=4, row=9)
+
+# tweets mentioning me
+tweets_mentioning_me_button = Button(root, text="Get my tweets!", command=get_my_tweets_info)
+tweets_mentioning_me_button.grid(column=0, row=11, pady=10)
 
 # starting the app
 root.mainloop()
