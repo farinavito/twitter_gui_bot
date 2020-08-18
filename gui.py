@@ -403,6 +403,30 @@ def create_new_window_with_scrollbar(get_api):
     mylist.pack(side=LEFT, fill=BOTH)
     scrollbar.config(command=mylist.yview)
 
+def was_mentioned_info():
+    keys_alright = check_authorization()
+    if keys_alright is True:
+
+        api = tweepy.API(start_the_bot(), wait_on_rate_limit=True)
+        create_new_window_for_mentioned_info(api)
+    else:
+        unsuccessful_authorization_label = Label(root, text="Keys aren't right", fg="red")
+        unsuccessful_authorization_label.grid(column=0, row=8)
+
+def create_new_window_for_mentioned_info(get_api):
+    # create a new window
+    new_window_all_my_tweets = create_new_window()
+    # create a scrollbar
+    scrollbar = Scrollbar(new_window_all_my_tweets)
+    scrollbar.pack(side=RIGHT, fill=Y)
+    # create a list in a scrollbar
+    mylist = Listbox(new_window_all_my_tweets, width=40, yscrollcommand=scrollbar.set)
+    for mention in tweepy.Cursor(get_api.mentions_timeline).items():
+        time_of_creation = mention.created_at.strftime("%d-%b-%Y")
+        mylist.insert(END, mention.text + ", " + mention.id_str + ", " + time_of_creation)
+
+    mylist.pack(side=LEFT, fill=BOTH)
+    scrollbar.config(command=mylist.yview)
 
 # consumer key
 consumer_key_label = Label(root, text="Enter consumer key:")
@@ -496,9 +520,13 @@ unlike_tweet_entry.grid(column=3, row=9, padx=(10, 5))
 unlike_tweet_button = Button(root, text="Unlike", command=unlike_tweet)
 unlike_tweet_button.grid(column=4, row=9)
 
-# tweets mentioning me
-tweets_mentioning_me_button = Button(root, text="Get my tweets!", command=get_my_tweets_info)
-tweets_mentioning_me_button.grid(column=0, row=11, pady=10)
+# tweets issued by me
+tweets_issued_by_me_button = Button(root, text="Get my tweets", command=get_my_tweets_info)
+tweets_issued_by_me_button.grid(column=0, row=11, pady=(10, 5))
+
+#tweets mentioned me
+tweets_mentioned_me_button = Button(root, text="Was mentioned", command=was_mentioned_info)
+tweets_mentioned_me_button.grid(column=0, row=12, pady=5)
 
 # starting the app
 root.mainloop()
