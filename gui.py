@@ -461,6 +461,38 @@ def create_new_window_for_who_retweeted_this_tweet(get_api):
     mylist.pack(side=LEFT, fill=BOTH)
     scrollbar.config(command=mylist.yview)
 
+
+def block_account():
+    keys_alright = check_authorization()
+    if keys_alright is True:
+
+        api = tweepy.API(start_the_bot(), wait_on_rate_limit=True)
+        who_will_get_blocked = block_this_user_entry.get()
+        api.create_block(screen_name=who_will_get_blocked)
+
+        success_block_account_label = Label(root, text="Blocked!", fg="green")
+        success_block_account_label.grid(column=3, row=16)
+        block_this_user_entry.delete(0, "end")
+    else:
+        unsuccessful_block_label = Label(root, text="Keys aren't right", fg="red")
+        unsuccessful_block_label.grid(column=0, row=8)
+
+
+def unblock_account():
+    keys_alright = check_authorization()
+    if keys_alright is True:
+
+        api = tweepy.API(start_the_bot(), wait_on_rate_limit=True)
+        who_will_get_unblocked = unblock_this_user_entry.get()
+        api.destroy_block(screen_name=who_will_get_unblocked)
+
+        success_unblock_account_label = Label(root, text="Unblocked!", fg="green")
+        success_unblock_account_label.grid(column=3, row=19)
+        unblock_this_user_entry.delete(0, "end")
+    else:
+        unsuccessful_unblock_label = Label(root, text="Keys aren't right", fg="red")
+        unsuccessful_unblock_label.grid(column=0, row=8)
+
 # consumer key
 consumer_key_label = Label(root, text="Enter consumer key:")
 consumer_key_label.grid(column=0, row=0)
@@ -568,6 +600,22 @@ who_retweeted_this_tweet_entry = Entry(root, width=40)
 who_retweeted_this_tweet_entry.grid(column=3, row=12, padx=(10, 5))
 who_retweeted_this_tweet_button = Button(root, text="Get", command=who_retweeted_this_tweet)
 who_retweeted_this_tweet_button.grid(column=4, row=12)
+
+#block someone
+block_this_user_label = Label(root, text="Block this account:")
+block_this_user_label.grid(column=3, row=14)
+block_this_user_entry = Entry(root, width=40)
+block_this_user_entry.grid(column=3, row=15, padx=(10, 5))
+block_this_user_button = Button(root, text="Block", command=block_account)
+block_this_user_button.grid(column=4, row=15)
+
+#unblock someone
+unblock_this_user_label = Label(root, text="Unblock this account:")
+unblock_this_user_label.grid(column=3, row=17)
+unblock_this_user_entry = Entry(root, width=40)
+unblock_this_user_entry.grid(column=3, row=18, padx=(10, 5))
+unblock_this_user_button = Button(root, text="Unblock", command=unblock_account)
+unblock_this_user_button.grid(column=4, row=18)
 # starting the app
 root.mainloop()
 
