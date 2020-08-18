@@ -428,6 +428,39 @@ def create_new_window_for_mentioned_info(get_api):
     mylist.pack(side=LEFT, fill=BOTH)
     scrollbar.config(command=mylist.yview)
 
+def who_retweeted_this_tweet():
+    keys_alright = check_authorization()
+    if keys_alright is True:
+
+        api = tweepy.API(start_the_bot(), wait_on_rate_limit=True)
+        create_new_window_for_who_retweeted_this_tweet(api)
+
+        success_retweet_label = Label(root, text="Retrieved", fg="green")
+        success_retweet_label.grid(column=3, row=13)
+        who_retweeted_this_tweet_entry.delete(0, "end")
+    else:
+        unsuccessful_authorization_label = Label(root, text="Keys aren't right", fg="red")
+        unsuccessful_authorization_label.grid(column=0, row=8)
+
+
+def create_new_window_for_who_retweeted_this_tweet(get_api):
+    # create a new window
+    new_window_all_ids = create_new_window()
+    # create a scrollbar
+    scrollbar = Scrollbar(new_window_all_ids)
+    scrollbar.pack(side=RIGHT, fill=Y)
+    #retrieve entered tweet's id
+    tweets_id = who_retweeted_this_tweet_entry.get()
+    # create a list in a scrollbar
+    mylist = Listbox(new_window_all_ids, width=40, yscrollcommand=scrollbar.set)
+    # get ids of people who retweted this
+    retweeted_list = get_api.retweets(id=tweets_id)
+    for retweet in retweeted_list:
+        mylist.insert(END, retweet.user.screen_name)
+
+    mylist.pack(side=LEFT, fill=BOTH)
+    scrollbar.config(command=mylist.yview)
+
 # consumer key
 consumer_key_label = Label(root, text="Enter consumer key:")
 consumer_key_label.grid(column=0, row=0)
@@ -524,10 +557,17 @@ unlike_tweet_button.grid(column=4, row=9)
 tweets_issued_by_me_button = Button(root, text="Get my tweets", command=get_my_tweets_info)
 tweets_issued_by_me_button.grid(column=0, row=11, pady=(10, 5))
 
-#tweets mentioned me
+# tweets that mentioned me
 tweets_mentioned_me_button = Button(root, text="Was mentioned", command=was_mentioned_info)
 tweets_mentioned_me_button.grid(column=0, row=12, pady=5)
 
+#who retweeted this tweet
+who_retweeted_this_tweet_label = Label(root, text="Who retweeted this tweet:")
+who_retweeted_this_tweet_label.grid(column=3, row=11)
+who_retweeted_this_tweet_entry = Entry(root, width=40)
+who_retweeted_this_tweet_entry.grid(column=3, row=12, padx=(10, 5))
+who_retweeted_this_tweet_button = Button(root, text="Get", command=who_retweeted_this_tweet)
+who_retweeted_this_tweet_button.grid(column=4, row=12)
 # starting the app
 root.mainloop()
 
