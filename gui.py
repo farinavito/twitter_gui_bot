@@ -21,12 +21,12 @@ def check_authorization():
     try:
         start_the_bot().get_authorization_url()
         successful_authorization_label = Label(root, text="Keys are alright", fg="green")
-        successful_authorization_label.grid(column=0, row=10)
+        successful_authorization_label.grid(column=0, row=8)
         return True
     except tweepy.TweepError:
         print('Error! Failed to get request token.')
         unsuccessful_authorization_label = Label(root, text="Keys aren't right", fg="red")
-        unsuccessful_authorization_label.grid(column=0, row=10)
+        unsuccessful_authorization_label.grid(column=0, row=8)
 
 
 def my_account():
@@ -382,7 +382,7 @@ api_secret_entry.grid(column=0, row=7)
 
 # access button
 access_button = Button(root, text="Account's info", command=my_account)
-access_button.grid(column=0, row=8)
+access_button.grid(column=0, row=10)
 
 # create a tweet
 tweet_creation_label = Label(root, text="Create a tweet:")
