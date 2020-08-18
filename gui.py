@@ -43,6 +43,22 @@ def my_account():
         unsuccessful_authorization_label.grid(column=0, row=8)
 
 
+def number_of_retweets(get_api):
+    try:
+        number_of_retweets_issued = get_api.retweets_of_me
+        return number_of_retweets_issued
+    except AttributeError:
+        no_retweets = 0
+        return no_retweets
+
+def number_of_tweets(get_api):
+    number_of_tweets_and_retweets = get_api.statuses_count
+    number_of_my_retweets_count = number_of_retweets(get_api)
+    number_of_my_tweets_count = number_of_tweets_and_retweets - number_of_my_retweets_count
+    return number_of_my_tweets_count
+
+
+
 def account_in_new_window(get_api):
     new_window_my_account = create_new_window()
     # account's name
@@ -77,13 +93,18 @@ def account_in_new_window(get_api):
 
     # number of tweets the account issued
     my_verified_account_label = Label(new_window_my_account,
-                                      text="Number of issued tweets:\n" + str(get_api.statuses_count))
+                                      text="Number of tweets:\n" + str(number_of_tweets(get_api)))
     my_verified_account_label.grid(column=0, row=8, sticky=W)
+
+    #number of retweets
+    my_number_retweets_label = Label(new_window_my_account,
+                                      text="Number of retweets:\n" + str(number_of_retweets(get_api)))
+    my_number_retweets_label.grid(column=0, row=9, sticky=W)
 
     # default profile image
     my_verified_account_label = Label(new_window_my_account,
                                       text="Using default profile image:\n" + str(get_api.default_profile_image))
-    my_verified_account_label.grid(column=0, row=9, sticky=W)
+    my_verified_account_label.grid(column=0, row=10, sticky=W)
 
 def create_tweet():
     try:
