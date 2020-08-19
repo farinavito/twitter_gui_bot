@@ -546,6 +546,27 @@ def unmute_account():
         unsuccess_unmute_tweet = Label(frame2, text="Something went wrong!", fg="red")
         unsuccess_unmute_tweet.grid(column=1, row=23)
 
+def comment_any_tweet_outthere():
+    try:
+        keys_alright = check_authorization()
+        if keys_alright is True:
+
+            api = tweepy.API(start_the_bot(), wait_on_rate_limit=True)
+            tweet_id = comment_any_tweet_entry.get()
+            comment_you_wrote = comment_any_tweet_text.get(0.0, END)
+            name_of = api.get_status(id=tweet_id)
+            api.update_status("@" + name_of.user.screen_name + " " + comment_you_wrote, tweet_id)
+
+            success_wrote_comment_of_any_tweet_label = Label(frame3, text="Commented!", fg="green")
+            success_wrote_comment_of_any_tweet_label.grid(column=3, row=14)
+            comment_any_tweet_text.delete(0.0, END)
+            comment_any_tweet_entry.delete(0, "end")
+        else:
+            unsuccess_wrote_comment_of_any_tweet_label = Label(frame3, text="Keys aren't right", fg="red")
+            unsuccess_wrote_comment_of_any_tweet_label.grid(column=3, row=14)
+    except:
+        success_wrote_comment_of_any_tweet_label_something = Label(frame3, text="Something went wrong!", fg="red")
+        success_wrote_comment_of_any_tweet_label_something.grid(column=3, row=14)
 
 # consumer key
 consumer_key_label = Label(frame1, text="Enter consumer key:")
@@ -679,13 +700,29 @@ mute_this_user_entry.grid(column=1, row=19, padx=(10, 5))
 mute_this_user_button = Button(frame2, text="Mute", command=mute_account)
 mute_this_user_button.grid(column=2, row=19)
 
-#unmute someone
+# unmute someone
 unmute_this_user_label = Label(frame2, text="Unmute this account:")
 unmute_this_user_label.grid(column=1, row=21)
 unmute_this_user_entry = Entry(frame2, width=40)
 unmute_this_user_entry.grid(column=1, row=22, padx=(10, 5))
 unmute_this_user_button = Button(frame2, text="Unmute", command=unmute_account)
 unmute_this_user_button.grid(column=2, row=22)
+
+# comment any tweet
+comment_any_tweet = Label(frame3, text="Comment any tweet")
+comment_any_tweet.grid(column=3, row=9)
+comment_any_tweet_label = Label(frame3, text="Tweet ID:")
+comment_any_tweet_label.grid(column=3, row=10)
+comment_any_tweet_entry = Entry(frame3, width=40)
+comment_any_tweet_entry.grid(column=3, row=11, padx=(10, 5))
+comment_any_tweet_comment = Label(frame3, text="Your comment:")
+comment_any_tweet_comment.grid(column=3, row=12)
+comment_any_tweet_text = Text(frame3, height=5, width=30)
+comment_any_tweet_text.grid(column=3, row=13)
+comment_any_tweet_button = Button(frame3, text="Comment", command=comment_any_tweet_outthere)
+comment_any_tweet_button.grid(column=4, row=13)
+
+
 
 # starting the app
 root.mainloop()
