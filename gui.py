@@ -347,14 +347,14 @@ def like_tweet():
 
             # create a success message
             liked_tweet_label = Label(root, text="Liked", fg="green")
-            liked_tweet_label.grid(column=3, row=7)
+            liked_tweet_label.grid(column=1, row=25)
             like_tweet_entry.delete(0, "end")
         else:
             unsuccessful_like_tweet_label = Label(root, text="Keys aren't right", fg="red")
-            unsuccessful_like_tweet_label.grid(column=3, row=7)
+            unsuccessful_like_tweet_label.grid(column=1, row=25)
     except:
         unsuccess_like_tweet = Label(root, text="Something went wrong!", fg="red")
-        unsuccess_like_tweet.grid(column=3, row=7)
+        unsuccess_like_tweet.grid(column=1, row=25)
 
 
 def unlike_tweet():
@@ -367,14 +367,14 @@ def unlike_tweet():
 
             # create a success message
             unliked_tweet_label = Label(root, text="Unliked", fg="green")
-            unliked_tweet_label.grid(column=3, row=10)
+            unliked_tweet_label.grid(column=1, row=28)
             unlike_tweet_entry.delete(0, "end")
         else:
             unsuccessful_unlike_tweet_label = Label(root, text="Keys aren't right", fg="red")
-            unsuccessful_unlike_tweet_label.grid(column=3, row=10)
+            unsuccessful_unlike_tweet_label.grid(column=1, row=28)
     except:
         unsuccess_like_tweet = Label(root, text="Something went wrong!", fg="red")
-        unsuccess_like_tweet.grid(column=3, row=10)
+        unsuccess_like_tweet.grid(column=1, row=28)
 
 def get_my_tweets_info():
     # check for keys
@@ -604,19 +604,19 @@ tweet_account_button.grid(column=4, row=3)
 
 #like the tweet
 like_tweet_label = Label(root, text="Like this tweet:")
-like_tweet_label.grid(column=3, row=5)
+like_tweet_label.grid(column=1, row=23)
 like_tweet_entry = Entry(root, width=40)
-like_tweet_entry.grid(column=3, row=6, padx=(10, 5))
+like_tweet_entry.grid(column=1, row=24, padx=(10, 5))
 like_tweet_button = Button(root, text="Like", command=like_tweet)
-like_tweet_button.grid(column=4, row=6)
+like_tweet_button.grid(column=2, row=24)
 
 #unlike the tweet
 unlike_tweet_label = Label(root, text="Unlike this tweet:")
-unlike_tweet_label.grid(column=3, row=8)
+unlike_tweet_label.grid(column=1, row=26)
 unlike_tweet_entry = Entry(root, width=40)
-unlike_tweet_entry.grid(column=3, row=9, padx=(10, 5))
+unlike_tweet_entry.grid(column=1, row=27, padx=(10, 5))
 unlike_tweet_button = Button(root, text="Unlike", command=unlike_tweet)
-unlike_tweet_button.grid(column=4, row=9)
+unlike_tweet_button.grid(column=2, row=27)
 
 # tweets issued by me
 tweets_issued_by_me_button = Button(root, text="Get my tweets", command=get_my_tweets_info)
