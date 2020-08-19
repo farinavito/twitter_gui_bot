@@ -440,7 +440,7 @@ def who_retweeted_this_tweet():
         who_retweeted_this_tweet_entry.delete(0, "end")
     else:
         unsuccessful_authorization_label = Label(root, text="Keys aren't right", fg="red")
-        unsuccessful_authorization_label.grid(column=0, row=8)
+        unsuccessful_authorization_label.grid(column=3, row=13)
 
 
 def create_new_window_for_who_retweeted_this_tweet(get_api):
@@ -463,67 +463,80 @@ def create_new_window_for_who_retweeted_this_tweet(get_api):
 
 
 def block_account():
-    keys_alright = check_authorization()
-    if keys_alright is True:
+    try:
+        keys_alright = check_authorization()
+        if keys_alright is True:
 
-        api = tweepy.API(start_the_bot(), wait_on_rate_limit=True)
-        who_will_get_blocked = block_this_user_entry.get()
-        api.create_block(screen_name=who_will_get_blocked)
+            api = tweepy.API(start_the_bot(), wait_on_rate_limit=True)
+            who_will_get_blocked = block_this_user_entry.get()
+            api.create_block(screen_name=who_will_get_blocked)
 
-        success_block_account_label = Label(root, text="Blocked!", fg="green")
-        success_block_account_label.grid(column=1, row=14)
-        block_this_user_entry.delete(0, "end")
-    else:
-        unsuccessful_block_label = Label(root, text="Keys aren't right", fg="red")
-        unsuccessful_block_label.grid(column=0, row=8)
-
+            success_block_account_label = Label(root, text="Blocked!", fg="green")
+            success_block_account_label.grid(column=1, row=14)
+            block_this_user_entry.delete(0, "end")
+        else:
+            unsuccessful_block_label = Label(root, text="Keys aren't right", fg="red")
+            unsuccessful_block_label.grid(column=1, row=14)
+    except:
+        unsuccess_block_tweet = Label(root, text="Something went wrong!", fg="red")
+        unsuccess_block_tweet.grid(column=1, row=14)
 
 def unblock_account():
-    keys_alright = check_authorization()
-    if keys_alright is True:
+    try:
+        keys_alright = check_authorization()
+        if keys_alright is True:
 
-        api = tweepy.API(start_the_bot(), wait_on_rate_limit=True)
-        who_will_get_unblocked = unblock_this_user_entry.get()
-        api.destroy_block(screen_name=who_will_get_unblocked)
+            api = tweepy.API(start_the_bot(), wait_on_rate_limit=True)
+            who_will_get_unblocked = unblock_this_user_entry.get()
+            api.destroy_block(screen_name=who_will_get_unblocked)
 
-        success_unblock_account_label = Label(root, text="Unblocked!", fg="green")
-        success_unblock_account_label.grid(column=1, row=17)
-        unblock_this_user_entry.delete(0, "end")
-    else:
-        unsuccessful_unblock_label = Label(root, text="Keys aren't right", fg="red")
-        unsuccessful_unblock_label.grid(column=0, row=8)
+            success_unblock_account_label = Label(root, text="Unblocked!", fg="green")
+            success_unblock_account_label.grid(column=1, row=17)
+            unblock_this_user_entry.delete(0, "end")
+        else:
+            unsuccessful_unblock_label = Label(root, text="Keys aren't right", fg="red")
+            unsuccessful_unblock_label.grid(column=1, row=17)
+    except:
+        unsuccess_unblock_tweet = Label(root, text="Something went wrong!", fg="red")
+        unsuccess_unblock_tweet.grid(column=1, row=17)
 
 def mute_account():
-    keys_alright = check_authorization()
-    if keys_alright is True:
+    try:
+        keys_alright = check_authorization()
+        if keys_alright is True:
 
-        api = tweepy.API(start_the_bot(), wait_on_rate_limit=True)
-        who_will_get_muted = mute_this_user_entry.get()
-        api.create_mute(screen_name=who_will_get_muted)
+            api = tweepy.API(start_the_bot(), wait_on_rate_limit=True)
+            who_will_get_muted = mute_this_user_entry.get()
+            api.create_mute(screen_name=who_will_get_muted)
 
-        success_mute_account_label = Label(root, text="Muted!", fg="green")
-        success_mute_account_label.grid(column=1, row=20)
-        mute_this_user_entry.delete(0, "end")
-    else:
-        unsuccessful_mute_label = Label(root, text="Keys aren't right", fg="red")
-        unsuccessful_mute_label.grid(column=0, row=8)
-
+            success_mute_account_label = Label(root, text="Muted!", fg="green")
+            success_mute_account_label.grid(column=1, row=20)
+            mute_this_user_entry.delete(0, "end")
+        else:
+            unsuccessful_mute_label = Label(root, text="Keys aren't right", fg="red")
+            unsuccessful_mute_label.grid(column=1, row=20)
+    except:
+        unsuccess_mute_tweet = Label(root, text="Something went wrong!", fg="red")
+        unsuccess_mute_tweet.grid(column=1, row=20)
 
 def unmute_account():
-    keys_alright = check_authorization()
-    if keys_alright is True:
+    try:
+        keys_alright = check_authorization()
+        if keys_alright is True:
 
-        api = tweepy.API(start_the_bot(), wait_on_rate_limit=True)
-        who_will_get_unmuted = unmute_this_user_entry.get()
-        api.destroy_mute(screen_name=who_will_get_unmuted)
+            api = tweepy.API(start_the_bot(), wait_on_rate_limit=True)
+            who_will_get_unmuted = unmute_this_user_entry.get()
+            api.destroy_mute(screen_name=who_will_get_unmuted)
 
-        success_unmute_account_label = Label(root, text="Unmuted!", fg="green")
-        success_unmute_account_label.grid(column=1, row=23)
-        unmute_this_user_entry.delete(0, "end")
-    else:
-        unsuccessful_unmute_label = Label(root, text="Keys aren't right", fg="red")
-        unsuccessful_unmute_label.grid(column=0, row=8)
-
+            success_unmute_account_label = Label(root, text="Unmuted!", fg="green")
+            success_unmute_account_label.grid(column=1, row=23)
+            unmute_this_user_entry.delete(0, "end")
+        else:
+            unsuccessful_unmute_label = Label(root, text="Keys aren't right", fg="red")
+            unsuccessful_unmute_label.grid(column=1, row=23)
+    except:
+        unsuccess_unmute_tweet = Label(root, text="Something went wrong!", fg="red")
+        unsuccess_unmute_tweet.grid(column=1, row=23)
 
 
 # consumer key
