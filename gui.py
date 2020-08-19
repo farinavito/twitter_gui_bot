@@ -4,7 +4,7 @@ import tweepy
 # Initial parameters
 root = Tk()
 root.title("TWITTER BOT")
-root.minsize(width=500, height=500)
+root.minsize(width=600, height=600)
 
 
 def start_the_bot():
@@ -471,7 +471,7 @@ def block_account():
         api.create_block(screen_name=who_will_get_blocked)
 
         success_block_account_label = Label(root, text="Blocked!", fg="green")
-        success_block_account_label.grid(column=3, row=16)
+        success_block_account_label.grid(column=1, row=14)
         block_this_user_entry.delete(0, "end")
     else:
         unsuccessful_block_label = Label(root, text="Keys aren't right", fg="red")
@@ -487,11 +487,44 @@ def unblock_account():
         api.destroy_block(screen_name=who_will_get_unblocked)
 
         success_unblock_account_label = Label(root, text="Unblocked!", fg="green")
-        success_unblock_account_label.grid(column=3, row=19)
+        success_unblock_account_label.grid(column=1, row=17)
         unblock_this_user_entry.delete(0, "end")
     else:
         unsuccessful_unblock_label = Label(root, text="Keys aren't right", fg="red")
         unsuccessful_unblock_label.grid(column=0, row=8)
+
+def mute_account():
+    keys_alright = check_authorization()
+    if keys_alright is True:
+
+        api = tweepy.API(start_the_bot(), wait_on_rate_limit=True)
+        who_will_get_muted = mute_this_user_entry.get()
+        api.create_mute(screen_name=who_will_get_muted)
+
+        success_mute_account_label = Label(root, text="Muted!", fg="green")
+        success_mute_account_label.grid(column=1, row=20)
+        mute_this_user_entry.delete(0, "end")
+    else:
+        unsuccessful_mute_label = Label(root, text="Keys aren't right", fg="red")
+        unsuccessful_mute_label.grid(column=0, row=8)
+
+
+def unmute_account():
+    keys_alright = check_authorization()
+    if keys_alright is True:
+
+        api = tweepy.API(start_the_bot(), wait_on_rate_limit=True)
+        who_will_get_unmuted = unmute_this_user_entry.get()
+        api.destroy_mute(screen_name=who_will_get_unmuted)
+
+        success_unmute_account_label = Label(root, text="Unmuted!", fg="green")
+        success_unmute_account_label.grid(column=1, row=23)
+        unmute_this_user_entry.delete(0, "end")
+    else:
+        unsuccessful_unmute_label = Label(root, text="Keys aren't right", fg="red")
+        unsuccessful_unmute_label.grid(column=0, row=8)
+
+
 
 # consumer key
 consumer_key_label = Label(root, text="Enter consumer key:")
@@ -603,19 +636,36 @@ who_retweeted_this_tweet_button.grid(column=4, row=12)
 
 #block someone
 block_this_user_label = Label(root, text="Block this account:")
-block_this_user_label.grid(column=3, row=14)
+block_this_user_label.grid(column=1, row=12)
 block_this_user_entry = Entry(root, width=40)
-block_this_user_entry.grid(column=3, row=15, padx=(10, 5))
+block_this_user_entry.grid(column=1, row=13, padx=(10, 5))
 block_this_user_button = Button(root, text="Block", command=block_account)
-block_this_user_button.grid(column=4, row=15)
+block_this_user_button.grid(column=2, row=13)
 
 #unblock someone
 unblock_this_user_label = Label(root, text="Unblock this account:")
-unblock_this_user_label.grid(column=3, row=17)
+unblock_this_user_label.grid(column=1, row=15)
 unblock_this_user_entry = Entry(root, width=40)
-unblock_this_user_entry.grid(column=3, row=18, padx=(10, 5))
+unblock_this_user_entry.grid(column=1, row=16, padx=(10, 5))
 unblock_this_user_button = Button(root, text="Unblock", command=unblock_account)
-unblock_this_user_button.grid(column=4, row=18)
+unblock_this_user_button.grid(column=2, row=16)
+
+#mute someone
+mute_this_user_label = Label(root, text="Mute this account:")
+mute_this_user_label.grid(column=1, row=18)
+mute_this_user_entry = Entry(root, width=40)
+mute_this_user_entry.grid(column=1, row=19, padx=(10, 5))
+mute_this_user_button = Button(root, text="Mute", command=mute_account)
+mute_this_user_button.grid(column=2, row=19)
+
+#unmute someone
+unmute_this_user_label = Label(root, text="Unmute this account:")
+unmute_this_user_label.grid(column=1, row=21)
+unmute_this_user_entry = Entry(root, width=40)
+unmute_this_user_entry.grid(column=1, row=22, padx=(10, 5))
+unmute_this_user_button = Button(root, text="Unmute", command=unmute_account)
+unmute_this_user_button.grid(column=2, row=22)
+
 # starting the app
 root.mainloop()
 
