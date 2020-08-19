@@ -3,6 +3,14 @@ import tweepy
 
 # Initial parameters
 root = Tk()
+frame = Frame(root, padx=10, pady=10)
+frame.pack()
+frame1 = Frame(frame)
+frame1.grid(column=0, row=0, padx=5, pady=5)
+frame2 = Frame(frame)
+frame2.grid(column=1, row=0, padx=5, pady=5)
+frame3 = Frame(frame)
+frame3.grid(column=2, row=0, padx=5, pady=5)
 root.title("TWITTER BOT")
 root.minsize(width=600, height=600)
 
@@ -20,12 +28,12 @@ def start_the_bot():
 def check_authorization():
     try:
         start_the_bot().get_authorization_url()
-        successful_authorization_label = Label(root, text="Keys are alright", fg="green")
+        successful_authorization_label = Label(frame1, text="Keys are alright", fg="green")
         successful_authorization_label.grid(column=0, row=8)
         return True
     except tweepy.TweepError:
         print('Error! Failed to get request token.')
-        unsuccessful_authorization_label = Label(root, text="Keys aren't right", fg="red")
+        unsuccessful_authorization_label = Label(frame1, text="Keys aren't right", fg="red")
         unsuccessful_authorization_label.grid(column=0, row=8)
 
 
@@ -39,7 +47,7 @@ def my_account():
         account_in_new_window(my_twitter)
 
     else:
-        unsuccessful_authorization_label = Label(root, text="Keys aren't right", fg="red")
+        unsuccessful_authorization_label = Label(frame1, text="Keys aren't right", fg="red")
         unsuccessful_authorization_label.grid(column=0, row=8)
 
 
@@ -115,15 +123,15 @@ def create_tweet():
             api.update_status(text_of_the_tweet)
 
             # Create a success label
-            success_tweet = Label(root, text="You have tweeted", fg="green")
+            success_tweet = Label(frame2, text="You have tweeted", fg="green")
             success_tweet.grid(column=1, row=2)
             tweet_creation_text.delete(0.0, END)
         else:
-            unsuccess_tweet = Label(root, text="Keys are wrong", fg="red")
+            unsuccess_tweet = Label(frame2, text="Keys are wrong", fg="red")
             unsuccess_tweet.grid(column=1, row=2)
 
     except:
-        unsuccess_tweet = Label(root, text="Something went wrong", fg="red")
+        unsuccess_tweet = Label(frame2, text="Something went wrong", fg="red")
         unsuccess_tweet.grid(column=1, row=2)
 
 
@@ -136,16 +144,16 @@ def unretweet():
             api.unretweet(id=unretweet_id)
 
             # create a success label
-            success_unretweet = Label(root, text="Unretweeted", fg="green")
+            success_unretweet = Label(frame2, text="Unretweeted", fg="green")
             success_unretweet.grid(column=1, row=11)
             unretweet_entry.delete(0, "end")
 
         else:
-            unsuccessful_authorization_label = Label(root, text="Keys are wrong", fg="red")
+            unsuccessful_authorization_label = Label(frame2, text="Keys are wrong", fg="red")
             unsuccessful_authorization_label.grid(column=1, row=11)
 
     except:
-        unsuccess_destroy_tweet = Label(root, text="Something went wrong!", fg="red")
+        unsuccess_destroy_tweet = Label(frame2, text="Something went wrong!", fg="red")
         unsuccess_destroy_tweet.grid(column=1, row=11)
 
 
@@ -158,15 +166,15 @@ def delete_tweet():
             api.destroy_status(id=tweet_id)
 
             # Create a success label
-            success_destroy_tweet = Label(root, text="tweet deleted!", fg="green")
+            success_destroy_tweet = Label(frame2, text="tweet deleted!", fg="green")
             success_destroy_tweet.grid(column=1, row=5)
             tweet_delete_entry.delete(0, "end")
         else:
-            unsuccessful_authorization_label = Label(root, text="Keys are wrong", fg="red")
+            unsuccessful_authorization_label = Label(frame2, text="Keys are wrong", fg="red")
             unsuccessful_authorization_label.grid(column=1, row=5)
 
     except:
-        unsuccess_destroy_tweet = Label(root, text="Something went wrong!", fg="red")
+        unsuccess_destroy_tweet = Label(frame2, text="Something went wrong!", fg="red")
         unsuccess_destroy_tweet.grid(column=1, row=5)
 
 
@@ -179,15 +187,15 @@ def retweet_tweet():
             api.retweet(id=tweet_want_to_retweet)
 
             # Create a success label
-            success_retweeted_tweet = Label(root, text="Retweeted", fg="green")
+            success_retweeted_tweet = Label(frame2, text="Retweeted", fg="green")
             success_retweeted_tweet.grid(column=1, row=8)
             retweet_entry.delete(0, "end")
         else:
-            unsuccessful_authorization_label = Label(root, text="Keys aren't right", fg="red")
+            unsuccessful_authorization_label = Label(frame2, text="Keys aren't right", fg="red")
             unsuccessful_authorization_label.grid(column=1, row=8)
 
     except:
-        unsuccess_retweeted_tweet = Label(root, text="Something went wrong!", fg="red")
+        unsuccess_retweeted_tweet = Label(frame2, text="Something went wrong!", fg="red")
         unsuccess_retweeted_tweet.grid(column=1, row=8)
 
 
@@ -203,14 +211,14 @@ def retrieve_info():
             show_tweet_info(tweet_info)
 
             # create a success message
-            success_tweet_info_label = Label(root, text="Retrieved", fg="green")
+            success_tweet_info_label = Label(frame3, text="Retrieved", fg="green")
             success_tweet_info_label.grid(column=3, row=2)
             tweet_info_entry.delete(0, "end")
         else:
-            unsuccessful_tweet_info_label = Label(root, text="Keys aren't right", fg="red")
+            unsuccessful_tweet_info_label = Label(frame3, text="Keys aren't right", fg="red")
             unsuccessful_tweet_info_label.grid(column=3, row=2)
     except:
-        unsuccess_tweet_info = Label(root, text="Something went wrong!", fg="red")
+        unsuccess_tweet_info = Label(frame3, text="Something went wrong!", fg="red")
         unsuccess_tweet_info.grid(column=3, row=2)
 
 
@@ -326,14 +334,14 @@ def account_info():
             account_in_new_window(account_info_user)
 
             # create a success message
-            success_tweet_info_label = Label(root, text="Retrieved", fg="green")
+            success_tweet_info_label = Label(frame3, text="Retrieved", fg="green")
             success_tweet_info_label.grid(column=3, row=4)
             tweet_info_entry.delete(0, "end")
         else:
-            unsuccessful_tweet_info_label = Label(root, text="Keys aren't right", fg="red")
+            unsuccessful_tweet_info_label = Label(frame3, text="Keys aren't right", fg="red")
             unsuccessful_tweet_info_label.grid(column=3, row=4)
     except:
-        unsuccess_tweet_info = Label(root, text="Something went wrong!", fg="red")
+        unsuccess_tweet_info = Label(frame3, text="Something went wrong!", fg="red")
         unsuccess_tweet_info.grid(column=3, row=4)
 
 
@@ -346,14 +354,14 @@ def like_tweet():
             api.create_favorite(id=liked_tweet)
 
             # create a success message
-            liked_tweet_label = Label(root, text="Liked", fg="green")
+            liked_tweet_label = Label(frame2, text="Liked", fg="green")
             liked_tweet_label.grid(column=1, row=25)
             like_tweet_entry.delete(0, "end")
         else:
-            unsuccessful_like_tweet_label = Label(root, text="Keys aren't right", fg="red")
+            unsuccessful_like_tweet_label = Label(frame2, text="Keys aren't right", fg="red")
             unsuccessful_like_tweet_label.grid(column=1, row=25)
     except:
-        unsuccess_like_tweet = Label(root, text="Something went wrong!", fg="red")
+        unsuccess_like_tweet = Label(frame2, text="Something went wrong!", fg="red")
         unsuccess_like_tweet.grid(column=1, row=25)
 
 
@@ -366,14 +374,14 @@ def unlike_tweet():
             api.destroy_favorite(id=unliked_tweet)
 
             # create a success message
-            unliked_tweet_label = Label(root, text="Unliked", fg="green")
+            unliked_tweet_label = Label(frame2, text="Unliked", fg="green")
             unliked_tweet_label.grid(column=1, row=28)
             unlike_tweet_entry.delete(0, "end")
         else:
-            unsuccessful_unlike_tweet_label = Label(root, text="Keys aren't right", fg="red")
+            unsuccessful_unlike_tweet_label = Label(frame2, text="Keys aren't right", fg="red")
             unsuccessful_unlike_tweet_label.grid(column=1, row=28)
     except:
-        unsuccess_like_tweet = Label(root, text="Something went wrong!", fg="red")
+        unsuccess_like_tweet = Label(frame2, text="Something went wrong!", fg="red")
         unsuccess_like_tweet.grid(column=1, row=28)
 
 def get_my_tweets_info():
@@ -384,7 +392,7 @@ def get_my_tweets_info():
         api = tweepy.API(start_the_bot(), wait_on_rate_limit=True)
         create_new_window_with_scrollbar(api)
     else:
-        unsuccessful_authorization_label = Label(root, text="Keys aren't right", fg="red")
+        unsuccessful_authorization_label = Label(frame, text="Keys aren't right", fg="red")
         unsuccessful_authorization_label.grid(column=0, row=8)
 
 
@@ -410,7 +418,7 @@ def was_mentioned_info():
         api = tweepy.API(start_the_bot(), wait_on_rate_limit=True)
         create_new_window_for_mentioned_info(api)
     else:
-        unsuccessful_authorization_label = Label(root, text="Keys aren't right", fg="red")
+        unsuccessful_authorization_label = Label(frame, text="Keys aren't right", fg="red")
         unsuccessful_authorization_label.grid(column=0, row=8)
 
 def create_new_window_for_mentioned_info(get_api):
@@ -435,12 +443,12 @@ def who_retweeted_this_tweet():
         api = tweepy.API(start_the_bot(), wait_on_rate_limit=True)
         create_new_window_for_who_retweeted_this_tweet(api)
 
-        success_retweet_label = Label(root, text="Retrieved", fg="green")
-        success_retweet_label.grid(column=3, row=13)
+        success_retweet_label = Label(frame3, text="Retrieved", fg="green")
+        success_retweet_label.grid(column=3, row=7)
         who_retweeted_this_tweet_entry.delete(0, "end")
     else:
-        unsuccessful_authorization_label = Label(root, text="Keys aren't right", fg="red")
-        unsuccessful_authorization_label.grid(column=3, row=13)
+        unsuccessful_authorization_label = Label(frame3, text="Keys aren't right", fg="red")
+        unsuccessful_authorization_label.grid(column=3, row=7)
 
 
 def create_new_window_for_who_retweeted_this_tweet(get_api):
@@ -471,14 +479,14 @@ def block_account():
             who_will_get_blocked = block_this_user_entry.get()
             api.create_block(screen_name=who_will_get_blocked)
 
-            success_block_account_label = Label(root, text="Blocked!", fg="green")
+            success_block_account_label = Label(frame2, text="Blocked!", fg="green")
             success_block_account_label.grid(column=1, row=14)
             block_this_user_entry.delete(0, "end")
         else:
-            unsuccessful_block_label = Label(root, text="Keys aren't right", fg="red")
+            unsuccessful_block_label = Label(frame2, text="Keys aren't right", fg="red")
             unsuccessful_block_label.grid(column=1, row=14)
     except:
-        unsuccess_block_tweet = Label(root, text="Something went wrong!", fg="red")
+        unsuccess_block_tweet = Label(frame2, text="Something went wrong!", fg="red")
         unsuccess_block_tweet.grid(column=1, row=14)
 
 def unblock_account():
@@ -490,14 +498,14 @@ def unblock_account():
             who_will_get_unblocked = unblock_this_user_entry.get()
             api.destroy_block(screen_name=who_will_get_unblocked)
 
-            success_unblock_account_label = Label(root, text="Unblocked!", fg="green")
+            success_unblock_account_label = Label(frame2, text="Unblocked!", fg="green")
             success_unblock_account_label.grid(column=1, row=17)
             unblock_this_user_entry.delete(0, "end")
         else:
-            unsuccessful_unblock_label = Label(root, text="Keys aren't right", fg="red")
+            unsuccessful_unblock_label = Label(frame2, text="Keys aren't right", fg="red")
             unsuccessful_unblock_label.grid(column=1, row=17)
     except:
-        unsuccess_unblock_tweet = Label(root, text="Something went wrong!", fg="red")
+        unsuccess_unblock_tweet = Label(frame2, text="Something went wrong!", fg="red")
         unsuccess_unblock_tweet.grid(column=1, row=17)
 
 def mute_account():
@@ -509,14 +517,14 @@ def mute_account():
             who_will_get_muted = mute_this_user_entry.get()
             api.create_mute(screen_name=who_will_get_muted)
 
-            success_mute_account_label = Label(root, text="Muted!", fg="green")
+            success_mute_account_label = Label(frame2, text="Muted!", fg="green")
             success_mute_account_label.grid(column=1, row=20)
             mute_this_user_entry.delete(0, "end")
         else:
-            unsuccessful_mute_label = Label(root, text="Keys aren't right", fg="red")
+            unsuccessful_mute_label = Label(frame2, text="Keys aren't right", fg="red")
             unsuccessful_mute_label.grid(column=1, row=20)
     except:
-        unsuccess_mute_tweet = Label(root, text="Something went wrong!", fg="red")
+        unsuccess_mute_tweet = Label(frame2, text="Something went wrong!", fg="red")
         unsuccess_mute_tweet.grid(column=1, row=20)
 
 def unmute_account():
@@ -528,155 +536,155 @@ def unmute_account():
             who_will_get_unmuted = unmute_this_user_entry.get()
             api.destroy_mute(screen_name=who_will_get_unmuted)
 
-            success_unmute_account_label = Label(root, text="Unmuted!", fg="green")
+            success_unmute_account_label = Label(frame2, text="Unmuted!", fg="green")
             success_unmute_account_label.grid(column=1, row=23)
             unmute_this_user_entry.delete(0, "end")
         else:
-            unsuccessful_unmute_label = Label(root, text="Keys aren't right", fg="red")
+            unsuccessful_unmute_label = Label(frame2, text="Keys aren't right", fg="red")
             unsuccessful_unmute_label.grid(column=1, row=23)
     except:
-        unsuccess_unmute_tweet = Label(root, text="Something went wrong!", fg="red")
+        unsuccess_unmute_tweet = Label(frame2, text="Something went wrong!", fg="red")
         unsuccess_unmute_tweet.grid(column=1, row=23)
 
 
 # consumer key
-consumer_key_label = Label(root, text="Enter consumer key:")
+consumer_key_label = Label(frame1, text="Enter consumer key:")
 consumer_key_label.grid(column=0, row=0)
-consumer_key_entry = Entry(root)
+consumer_key_entry = Entry(frame1)
 consumer_key_entry.grid(column=0, row=1)
 
 # consumer secret
-consumer_secret_label = Label(root, text="Enter consumer secret:")
+consumer_secret_label = Label(frame1, text="Enter consumer secret:")
 consumer_secret_label.grid(column=0, row=2)
-consumer_secret_entry = Entry(root)
+consumer_secret_entry = Entry(frame1)
 consumer_secret_entry.grid(column=0, row=3)
 
 # api key
-api_key_label = Label(root, text="Enter api key:")
+api_key_label = Label(frame1, text="Enter api key:")
 api_key_label.grid(column=0, row=4)
-api_key_entry = Entry(root)
+api_key_entry = Entry(frame1)
 api_key_entry.grid(column=0, row=5)
 
 # api secret
-api_secret_label = Label(root, text="Enter api secret:")
+api_secret_label = Label(frame1, text="Enter api secret:")
 api_secret_label.grid(column=0, row=6)
-api_secret_entry = Entry(root)
+api_secret_entry = Entry(frame1)
 api_secret_entry.grid(column=0, row=7)
 
 # access button
-access_button = Button(root, text="Account's info", command=my_account)
+access_button = Button(frame1, text="Account's info", command=my_account)
 access_button.grid(column=0, row=10)
 
 # create a tweet
-tweet_creation_label = Label(root, text="Create a tweet:")
+tweet_creation_label = Label(frame2, text="Create a tweet:")
 tweet_creation_label.grid(column=1, row=0)
-tweet_creation_text = Text(root, height=5, width=30)
+tweet_creation_text = Text(frame2, height=5, width=30)
 tweet_creation_text.grid(column=1, row=1, padx=(10, 5))
-tweet_creation_button = Button(root, text="Tweet", height=5, command=create_tweet)
+tweet_creation_button = Button(frame2, text="Tweet", height=5, command=create_tweet)
 tweet_creation_button.grid(column=2, row=1)
 
 # delete a tweet
-tweet_delete_label = Label(root, text="Delete this tweet:")
+tweet_delete_label = Label(frame2, text="Delete this tweet:")
 tweet_delete_label.grid(column=1, row=3)
-tweet_delete_entry = Entry(root, width=40)
+tweet_delete_entry = Entry(frame2, width=40)
 tweet_delete_entry.grid(column=1, row=4, padx=(10, 5))
-tweet_delete_button = Button(root, text="Delete", command=delete_tweet)
+tweet_delete_button = Button(frame2, text="Delete", command=delete_tweet)
 tweet_delete_button.grid(column=2, row=4)
 
 # retweet
-retweet_label = Label(root, text="Retweet this tweet:")
+retweet_label = Label(frame2, text="Retweet this tweet:")
 retweet_label.grid(column=1, row=6)
-retweet_entry = Entry(root, width=40)
+retweet_entry = Entry(frame2, width=40)
 retweet_entry.grid(column=1, row=7, padx=(10, 5))
-retweet_button = Button(root, text="Retweet", command=retweet_tweet)
+retweet_button = Button(frame2, text="Retweet", command=retweet_tweet)
 retweet_button.grid(column=2, row=7)
 
 # unretweet
-unretweet_label = Label(root, text="Unretweet this tweet:")
+unretweet_label = Label(frame2, text="Unretweet this tweet:")
 unretweet_label.grid(column=1, row=9)
-unretweet_entry = Entry(root, width=40)
+unretweet_entry = Entry(frame2, width=40)
 unretweet_entry.grid(column=1, row=10, padx=(10, 5))
-unretweet__button = Button(root, text="Unretweet", command=unretweet)
+unretweet__button = Button(frame2, text="Unretweet", command=unretweet)
 unretweet__button.grid(column=2, row=10)
 
 # tweet's info
-tweet_info_label = Label(root, text="Retrieve this tweet's info:")
+tweet_info_label = Label(frame3, text="Retrieve this tweet's info:")
 tweet_info_label.grid(column=3, row=0)
-tweet_info_entry = Entry(root, width=40)
+tweet_info_entry = Entry(frame3, width=40)
 tweet_info_entry.grid(column=3, row=1, padx=(10, 5))
-tweet_info_button = Button(root, text="Info", command=retrieve_info)
+tweet_info_button = Button(frame3, text="Info", command=retrieve_info)
 tweet_info_button.grid(column=4, row=1)
 
 # account info
-tweet_account_label = Label(root, text="Retrieve this account's info:")
+tweet_account_label = Label(frame3, text="Retrieve this account's info:")
 tweet_account_label.grid(column=3, row=2)
-tweet_account_entry = Entry(root, width=40)
+tweet_account_entry = Entry(frame3, width=40)
 tweet_account_entry.grid(column=3, row=3, padx=(10, 5))
-tweet_account_button = Button(root, text="Info", command=account_info)
+tweet_account_button = Button(frame3, text="Info", command=account_info)
 tweet_account_button.grid(column=4, row=3)
 
 #like the tweet
-like_tweet_label = Label(root, text="Like this tweet:")
+like_tweet_label = Label(frame2, text="Like this tweet:")
 like_tweet_label.grid(column=1, row=23)
-like_tweet_entry = Entry(root, width=40)
+like_tweet_entry = Entry(frame2, width=40)
 like_tweet_entry.grid(column=1, row=24, padx=(10, 5))
-like_tweet_button = Button(root, text="Like", command=like_tweet)
+like_tweet_button = Button(frame2, text="Like", command=like_tweet)
 like_tweet_button.grid(column=2, row=24)
 
 #unlike the tweet
-unlike_tweet_label = Label(root, text="Unlike this tweet:")
+unlike_tweet_label = Label(frame2, text="Unlike this tweet:")
 unlike_tweet_label.grid(column=1, row=26)
-unlike_tweet_entry = Entry(root, width=40)
+unlike_tweet_entry = Entry(frame2, width=40)
 unlike_tweet_entry.grid(column=1, row=27, padx=(10, 5))
-unlike_tweet_button = Button(root, text="Unlike", command=unlike_tweet)
+unlike_tweet_button = Button(frame2, text="Unlike", command=unlike_tweet)
 unlike_tweet_button.grid(column=2, row=27)
 
 # tweets issued by me
-tweets_issued_by_me_button = Button(root, text="Get my tweets", command=get_my_tweets_info)
+tweets_issued_by_me_button = Button(frame1, text="Get my tweets", command=get_my_tweets_info)
 tweets_issued_by_me_button.grid(column=0, row=11, pady=(10, 5))
 
 # tweets that mentioned me
-tweets_mentioned_me_button = Button(root, text="Was mentioned", command=was_mentioned_info)
+tweets_mentioned_me_button = Button(frame1, text="Was mentioned", command=was_mentioned_info)
 tweets_mentioned_me_button.grid(column=0, row=12, pady=5)
 
 #who retweeted this tweet
-who_retweeted_this_tweet_label = Label(root, text="Who retweeted this tweet:")
-who_retweeted_this_tweet_label.grid(column=3, row=11)
-who_retweeted_this_tweet_entry = Entry(root, width=40)
-who_retweeted_this_tweet_entry.grid(column=3, row=12, padx=(10, 5))
-who_retweeted_this_tweet_button = Button(root, text="Get", command=who_retweeted_this_tweet)
-who_retweeted_this_tweet_button.grid(column=4, row=12)
+who_retweeted_this_tweet_label = Label(frame3, text="Who retweeted this tweet:")
+who_retweeted_this_tweet_label.grid(column=3, row=5)
+who_retweeted_this_tweet_entry = Entry(frame3, width=40)
+who_retweeted_this_tweet_entry.grid(column=3, row=6, padx=(10, 5))
+who_retweeted_this_tweet_button = Button(frame3, text="Get", command=who_retweeted_this_tweet)
+who_retweeted_this_tweet_button.grid(column=4, row=6)
 
 #block someone
-block_this_user_label = Label(root, text="Block this account:")
+block_this_user_label = Label(frame2, text="Block this account:")
 block_this_user_label.grid(column=1, row=12)
-block_this_user_entry = Entry(root, width=40)
+block_this_user_entry = Entry(frame2, width=40)
 block_this_user_entry.grid(column=1, row=13, padx=(10, 5))
-block_this_user_button = Button(root, text="Block", command=block_account)
+block_this_user_button = Button(frame2, text="Block", command=block_account)
 block_this_user_button.grid(column=2, row=13)
 
 #unblock someone
-unblock_this_user_label = Label(root, text="Unblock this account:")
+unblock_this_user_label = Label(frame2, text="Unblock this account:")
 unblock_this_user_label.grid(column=1, row=15)
-unblock_this_user_entry = Entry(root, width=40)
+unblock_this_user_entry = Entry(frame2, width=40)
 unblock_this_user_entry.grid(column=1, row=16, padx=(10, 5))
-unblock_this_user_button = Button(root, text="Unblock", command=unblock_account)
+unblock_this_user_button = Button(frame2, text="Unblock", command=unblock_account)
 unblock_this_user_button.grid(column=2, row=16)
 
 #mute someone
-mute_this_user_label = Label(root, text="Mute this account:")
+mute_this_user_label = Label(frame2, text="Mute this account:")
 mute_this_user_label.grid(column=1, row=18)
-mute_this_user_entry = Entry(root, width=40)
+mute_this_user_entry = Entry(frame2, width=40)
 mute_this_user_entry.grid(column=1, row=19, padx=(10, 5))
-mute_this_user_button = Button(root, text="Mute", command=mute_account)
+mute_this_user_button = Button(frame2, text="Mute", command=mute_account)
 mute_this_user_button.grid(column=2, row=19)
 
 #unmute someone
-unmute_this_user_label = Label(root, text="Unmute this account:")
+unmute_this_user_label = Label(frame2, text="Unmute this account:")
 unmute_this_user_label.grid(column=1, row=21)
-unmute_this_user_entry = Entry(root, width=40)
+unmute_this_user_entry = Entry(frame2, width=40)
 unmute_this_user_entry.grid(column=1, row=22, padx=(10, 5))
-unmute_this_user_button = Button(root, text="Unmute", command=unmute_account)
+unmute_this_user_button = Button(frame2, text="Unmute", command=unmute_account)
 unmute_this_user_button.grid(column=2, row=22)
 
 # starting the app
