@@ -335,14 +335,14 @@ def account_info():
 
             # create a success message
             success_tweet_info_label = Label(frame3, text="Retrieved", fg="green")
-            success_tweet_info_label.grid(column=3, row=4)
+            success_tweet_info_label.grid(column=3, row=5)
             tweet_info_entry.delete(0, "end")
         else:
             unsuccessful_tweet_info_label = Label(frame3, text="Keys aren't right", fg="red")
-            unsuccessful_tweet_info_label.grid(column=3, row=4)
+            unsuccessful_tweet_info_label.grid(column=3, row=5)
     except:
         unsuccess_tweet_info = Label(frame3, text="Something went wrong!", fg="red")
-        unsuccess_tweet_info.grid(column=3, row=4)
+        unsuccess_tweet_info.grid(column=3, row=5)
 
 
 def like_tweet():
@@ -444,11 +444,11 @@ def who_retweeted_this_tweet():
         create_new_window_for_who_retweeted_this_tweet(api)
 
         success_retweet_label = Label(frame3, text="Retrieved", fg="green")
-        success_retweet_label.grid(column=3, row=7)
+        success_retweet_label.grid(column=3, row=9)
         who_retweeted_this_tweet_entry.delete(0, "end")
     else:
         unsuccessful_authorization_label = Label(frame3, text="Keys aren't right", fg="red")
-        unsuccessful_authorization_label.grid(column=3, row=7)
+        unsuccessful_authorization_label.grid(column=3, row=9)
 
 
 def create_new_window_for_who_retweeted_this_tweet(get_api):
@@ -617,11 +617,11 @@ tweet_info_button.grid(column=4, row=1)
 
 # account info
 tweet_account_label = Label(frame3, text="Retrieve this account's info:")
-tweet_account_label.grid(column=3, row=2)
+tweet_account_label.grid(column=3, row=3)
 tweet_account_entry = Entry(frame3, width=40)
-tweet_account_entry.grid(column=3, row=3, padx=(10, 5))
+tweet_account_entry.grid(column=3, row=4, padx=(10, 5))
 tweet_account_button = Button(frame3, text="Info", command=account_info)
-tweet_account_button.grid(column=4, row=3)
+tweet_account_button.grid(column=4, row=4)
 
 #like the tweet
 like_tweet_label = Label(frame2, text="Like this tweet:")
@@ -649,11 +649,11 @@ tweets_mentioned_me_button.grid(column=0, row=12, pady=5)
 
 #who retweeted this tweet
 who_retweeted_this_tweet_label = Label(frame3, text="Who retweeted this tweet:")
-who_retweeted_this_tweet_label.grid(column=3, row=5)
+who_retweeted_this_tweet_label.grid(column=3, row=6)
 who_retweeted_this_tweet_entry = Entry(frame3, width=40)
-who_retweeted_this_tweet_entry.grid(column=3, row=6, padx=(10, 5))
+who_retweeted_this_tweet_entry.grid(column=3, row=7, padx=(10, 5))
 who_retweeted_this_tweet_button = Button(frame3, text="Get", command=who_retweeted_this_tweet)
-who_retweeted_this_tweet_button.grid(column=4, row=6)
+who_retweeted_this_tweet_button.grid(column=4, row=7)
 
 #block someone
 block_this_user_label = Label(frame2, text="Block this account:")
